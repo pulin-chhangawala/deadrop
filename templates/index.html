@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>deadrop | encrypted file drop</title>
+    <meta name="description" content="Self-hosted encrypted file sharing. Upload once, download once, then it's gone.">
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>deadrop</h1>
+            <p class="tagline">encrypted file sharing. upload once, download once.</p>
+        </header>
+
+        <main>
+            <div id="drop-zone" class="drop-zone">
+                <div class="drop-zone-content">
+                    <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                        <polyline points="17 8 12 3 7 8"/>
+                        <line x1="12" y1="3" x2="12" y2="15"/>
+                    </svg>
+                    <p>drop a file here or <span class="browse-link">browse</span></p>
+                    <p class="size-limit">max {{ max_size_mb }}MB • encrypted at rest • expires after download</p>
+                </div>
+                <input type="file" id="file-input" hidden>
+            </div>
+
+            <div id="options" class="options hidden">
+                <div class="option-group">
+                    <label for="expiry">expires in</label>
+                    <select id="expiry">
+                        <option value="1">1 hour</option>
+                        <option value="6">6 hours</option>
+                        <option value="24" selected>24 hours</option>
+                        <option value="72">3 days</option>
+                        <option value="168">7 days</option>
+                    </select>
+                </div>
+                <div class="option-group">
+                    <label for="max-downloads">max downloads</label>
+                    <select id="max-downloads">
+                        <option value="1" selected>1 (one-time)</option>
+                        <option value="3">3</option>
+                        <option value="10">10</option>
+                        <option value="100">unlimited-ish</option>
+                    </select>
+                </div>
+                <button id="upload-btn" class="btn">encrypt & upload</button>
+            </div>
+
+            <div id="progress" class="progress-container hidden">
+                <div class="progress-bar">
+                    <div id="progress-fill" class="progress-fill"></div>
+                </div>
+                <p id="progress-text" class="progress-text">encrypting...</p>
+            </div>
+
+            <div id="result" class="result hidden">
+                <div class="result-card">
+                    <p class="result-label">download link:</p>
+                    <div class="link-container">
+                        <input type="text" id="download-link" readonly>
+                        <button id="copy-btn" class="btn btn-small">copy</button>
+                    </div>
+                    <p id="result-meta" class="result-meta"></p>
+                </div>
+                <button id="another-btn" class="btn btn-secondary">drop another file</button>
+            </div>
+        </main>
+
+        <footer>
+            <p>files are AES-256-GCM encrypted at rest. links auto-expire.</p>
+            <p>self-hosted • no tracking • <a href="https://github.com/pulin-chhangawala/deadrop">source</a></p>
+        </footer>
+    </div>
+
+    <script src="/static/app.js"></script>
+</body>
+</html>

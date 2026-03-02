@@ -1,0 +1,7 @@
+__pycache__/
+*.pyc
+.env
+deadrop.db
+uploads/
+venv/
+*.egg-info/

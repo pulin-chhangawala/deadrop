@@ -1,0 +1,18 @@
+version: '3.8'
+
+services:
+  deadrop:
+    build: .
+    ports:
+      - "5000:5000"
+    volumes:
+      - deadrop-data:/data
+    environment:
+      - SECRET_KEY=${SECRET_KEY:-change-me-in-production}
+      - MAX_FILE_SIZE=52428800  # 50MB
+      - DEFAULT_EXPIRY=24
+      - MAX_DOWNLOADS=1
+    restart: unless-stopped
+
+volumes:
+  deadrop-data:

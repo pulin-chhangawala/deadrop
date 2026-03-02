@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>deadrop | download</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1><a href="/" style="text-decoration: none; color: inherit;">deadrop</a></h1>
+        </header>
+
+        <main>
+            {% if error %}
+            <div class="download-card error-card">
+                <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                    <circle cx="12" cy="12" r="10"/>
+                    <line x1="15" y1="9" x2="9" y2="15"/>
+                    <line x1="9" y1="9" x2="15" y2="15"/>
+                </svg>
+                <h2>link expired or invalid</h2>
+                <p>this file has either been downloaded, expired, or never existed.</p>
+                <a href="/" class="btn">upload a new file</a>
+            </div>
+            {% else %}
+            <div class="download-card">
+                <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                    <polyline points="7 10 12 15 17 10"/>
+                    <line x1="12" y1="15" x2="12" y2="3"/>
+                </svg>
+                <h2>{{ drop.original_filename }}</h2>
+                <p class="file-meta">
+                    {{ (drop.file_size / 1024) | round(1) }} KB •
+                    {{ drop.max_downloads - drop.download_count }} download{{ 's' if drop.max_downloads - drop.download_count != 1 else '' }} remaining
+                </p>
+                <a href="/d/{{ drop_id }}/file" class="btn download-btn">decrypt & download</a>
+                <p class="warning-text">⚠ this link will expire after download</p>
+            </div>
+            {% endif %}
+        </main>
+
+        <footer>
+            <p>files are AES-256-GCM encrypted at rest.</p>
+        </footer>
+    </div>
+</body>
+</html>
